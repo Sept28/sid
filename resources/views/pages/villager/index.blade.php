@@ -319,10 +319,10 @@
                       </path>
                     </svg>
                   </a>
-                  <form action="{{ route('villager.destroy', $villager->id) }}" method="POST">
+                    <form action="{{ route('villager.destroy', $villager->id) }}" id="delete{{ $villager->id }}" method="POST">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-red-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                    <button type="submit" class="show_confirm flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-red-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                             aria-label="Delete"
                             data-id="{{ $villager->id }}"
                     >
@@ -414,28 +414,43 @@
       </div>
     </div>
   </main>
-    <script src="https://code.jquery.com/jquery-3.6.0.slim.js" integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY=" crossorigin="anonymous"></script>
+
 @endsection
-@push('script')
-  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  <script>
-    $('.delete').click(function() {
-      swal({
-        title: "Are you sure?",
-        text: "Once deleted, you will not be able to recover this imaginary file!",
-        icon: "warning",
-        buttons: true,
-        dangerMode: true,
-      })
-      .then((willDelete) => {
-        if (willDelete) {
-          swal("Poof! Your imaginary file has been deleted!", {
-            icon: "success",
-          });
-        } else {
-          swal("Your imaginary file is safe!");
-        }
-      });
-    })
-  </script>
+@push('after-script')
+  <script src="https://code.jquery.com/jquery-3.6.0.slim.js" integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+
+  <script type="text/javascript">
+      $('.show_confirm').click(function(event) {
+
+            var form =  $(this).closest("form");
+
+            event.preventDefault();
+
+            swal({
+
+                title: `Are you sure you want to delete this record?`,
+
+                text: "If you delete this, it will be gone forever.",
+
+                icon: "warning",
+
+                buttons: true,
+
+                dangerMode: true,
+
+            })
+
+            .then((willDelete) => {
+
+              if (willDelete) {
+                swal("Poof! Your imaginary file has been deleted!", {
+                  icon: "success",
+                });
+              }
+              form.submit();
+            });
+
+        });
+  </script>    
 @endpush

@@ -77,6 +77,7 @@ class VillagerController extends Controller
     public function create()
     {
         $villagers = Villager::get();
+
         return view('pages.villager.create', compact('villagers'));
     }
 

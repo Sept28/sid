@@ -107,7 +107,7 @@ class FamilyCardController extends Controller
         
         return view('pages.family.show')->with([
             'families' => $families,
-            'familiars' => $familiars
+            'familiars' => $familiars,
         ]);
     }
 

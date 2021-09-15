@@ -22,7 +22,7 @@
     </div>
 
     @stack('before-script')
-    @stack('script')
+    @include('includes.script')
     @stack('after-script')
   </body>
 </html>

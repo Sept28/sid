@@ -10,3 +10,4 @@
 {{-- <script src="{{ asset('windmill-dashboard/public/assets/js/charts-lines.js') }}" defer></script> --}}
 {{-- <script src="{{ asset('windmill-dashboard/public/assets/js/charts-pie.js') }}" defer></script> --}}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
