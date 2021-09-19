@@ -334,6 +334,7 @@
                        placeholder="Foto KTP"
                        name="id_photo"
                        class="block"
+                       accept="/image*"
                 >
               </label>
             </div>

@@ -72,15 +72,16 @@
           {{-- Family Number --}}
           <label class="block mt-4 text-sm">
             <span class="text-gray-700 dark:text-gray-400">
-              Tambahkan penduduk ke dalam sebuah KK
+              Ganti KK
             </span>
             <select
               class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
               name="family_card_id"
+              id="villager"
             >
-              <option value="0">Tidak</option>
+              <option value="0">Tanpa KK</option>
               @foreach ($families as $family)
-                <option value="{{ $family->id }}" {{ $villagers->family_card_id ? 'selected' : '' }}>{{ $family->family_number }} / {{ $family->villager->name }}</option>
+                <option value="{{ $family->id }}" {{ $family->id === $villagers->family_card_id ? 'selected' : '' }}>{{ $family->family_number }} / {{ $family->villager->name }}</option>
               @endforeach
             </select>
           </label>

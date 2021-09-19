@@ -77,9 +77,10 @@
               <select
                 class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
                 name="family_card_id"
+                id="family"
               >
                 @foreach ($families as $family)
-                  <option value="{{ $family->id }}" {{ $births->id ? 'selected' : '' }}>{{ $family->family_number }} / {{ $family->villager->name }}</option>
+                  <option value="{{ $family->id }}" {{ $family->id === $births->familyCard->id ? 'selected' : '' }}>{{ $family->family_number }} / {{ $family->villager ? $family->villager->name : '' }}</option>
                 @endforeach
               </select>
             </label>
@@ -96,4 +97,14 @@
         </div>
       </div>
     </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+
+    <script type="text/javascript">
+
+      $("#family").select2({
+        placeholder: "Select a Name",
+        allowClear: true
+      });
+    </script>
 @endsection

@@ -4,9 +4,15 @@ namespace App\Imports;
 
 use App\Models\Birth;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithStartRow;
 
-class BirthImport implements ToModel
+class BirthImport implements ToModel, WithStartRow
 {
+    public function startRow(): int
+    {
+        return 2;
+    }
+    
     /**
     * @param array $row
     *

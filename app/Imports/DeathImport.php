@@ -4,8 +4,9 @@ namespace App\Imports;
 
 use App\Models\Death;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithStartRow;
 
-class DeathImport implements ToModel
+class DeathImport implements ToModel, WithStartRow
 {
     /**
     * @param array $row
@@ -19,5 +20,10 @@ class DeathImport implements ToModel
             'obit' => $row[2],
             'cause' => $row[3]
         ]);
+    }
+
+    public function startRow(): int
+    {
+        return 2;
     }
 }

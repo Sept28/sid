@@ -4,8 +4,9 @@ namespace App\Imports;
 
 use App\Models\Comer;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithStartRow;
 
-class ComerImport implements ToModel
+class ComerImport implements ToModel, WithStartRow
 {
     /**
     * @param array $row
@@ -31,5 +32,10 @@ class ComerImport implements ToModel
         'education' => $row[14],
         'parent' => $row[15],
         ]);
+    }
+
+    public function StartRow(): int
+    {
+        return 2;
     }
 }

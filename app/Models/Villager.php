@@ -9,7 +9,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Villager extends Model
 {
     use SoftDeletes;
-
+    use HasFactory;
+    protected $table = "villagers";
     protected $fillable = [
         'id_number',
         'family_card_id',
@@ -33,7 +34,7 @@ class Villager extends Model
 
     ];
 
-    public function family()
+    public function familyCard()
     {
         return $this->belongsTo(FamilyCard::class);
     }

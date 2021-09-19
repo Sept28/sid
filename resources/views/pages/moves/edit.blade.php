@@ -50,9 +50,10 @@
                 <select
                   class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
                   name="villager_id"
+                  id="villager"
                 >
-                  @foreach ($names as $name)
-                    <option value="{{ $name->villager_id }}">{{ $name->villager->id_number }} / {{ $name->villager->name }}</option>
+                  @foreach ($villagers as $villager)
+                    <option value="{{ $villager->id }}" {{ $villager->id === $movers->villager_id ? 'selected' : '' }}>{{ $villager->name ? $villager->id_number : '' }} / {{ $villager->name ? $villager->name : '' }}</option>
                   @endforeach
                 </select>
               </label>
@@ -77,7 +78,7 @@
                 <span class="text-gray-700 dark:text-gray-400">Alasan Pindah</span>
                 <input
                   class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                  placeholder="Sakit Jantung / Usia Tua"
+                  placeholder="Punya rumah baru"
                   name="cause"
                   type="text"
                   value="{{ $movers->cause }}"
@@ -97,4 +98,14 @@
         </div>
       </div>
     </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+
+    <script type="text/javascript">
+
+      $("#family").select2({
+        placeholder: "Select a Name",
+        allowClear: true
+      });
+    </script>
 @endsection

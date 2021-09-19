@@ -4,33 +4,35 @@ namespace App\Imports;
 
 use App\Models\Villager;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithStartRow;
 
-class VillagerImport implements ToModel
+class VillagerImport implements ToModel, WithStartRow
 {
-    /**
-    * @param array $row
-    *
-    * @return \Illuminate\Database\Eloquent\Model|null
-    */
+    public function StartRow(): int
+    {
+        return 2;
+    }
+    
     public function model(array $row)
     {
         return new Villager([
             'id_number' => $row[1],
-            'family_card_id' => $row[2],
-            'name' => $row[3],
-            'age' => $row[4],
-            'birth_date' => $row[5],
-            'birth_place' => $row[6],
-            'gender' => $row[7],
-            'blood_type' => $row[8],
-            'address' => $row[9],
-            'religion' => $row[10],
-            'marital_status' => $row[11],
-            'citizenship' => $row[12],
-            'education' => $row[13],
-            'parent' => $row[14],
-            'id_photo' => $row[15],
-            'kinship' => $row[16],
+            'name' => $row[2],
+            'age' => $row[3],
+            'birth_date' => $row[4],
+            'birth_place' => $row[5],
+            'gender' => $row[6],
+            'blood_type' => $row[7],
+            'address' => $row[8],
+            'religion' => $row[9],
+            'marital_status' => $row[10],
+            'citizenship' => $row[11],
+            'education' => $row[12],
+            'parent' => $row[13],
+            'id_photo' => $row[14],
+            'kinship' => $row[15],
+            'status' => $row[16],
         ]);
     }
+    
 }

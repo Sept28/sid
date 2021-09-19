@@ -9,6 +9,7 @@ use App\Models\FamilyCard;
 use App\Models\Villager;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class FamilyCardController extends Controller
 {
@@ -119,7 +120,7 @@ class FamilyCardController extends Controller
      */
     public function edit($id)
     {
-        $patriarches = Villager::get();
+        $patriarches = Villager::where('kinship', 'kepala')->get();
         $families = FamilyCard::with('villagers')->find($id);
         return view('pages.family.edit')->with([
             'families' => $families,
@@ -142,6 +143,22 @@ class FamilyCardController extends Controller
         return redirect()->route('family.index');
     }
 
+    public function konfirmasi($id)
+    {
+        alert()->warning('Peringatan !', 'Anda yakin akan menghapus data ? ')
+        ->showConfirmButton(
+            '<form action="' . route('family.destroy', $id) . '" method="POST">
+            ' . method_field('delete') . csrf_field() . '
+            <button type="submit"
+                aria-label="Delete"
+            >
+                Hapus
+            </button>
+        </form>','#3085d6')->toHtml()
+        ->showCancelButton('Batal', '#aaa')->reverseButtons();
+
+        return back();
+    }
     /**
      * Remove the specified resource from storage.
      *
@@ -150,9 +167,12 @@ class FamilyCardController extends Controller
      */
     public function destroy($id)
     {
-        FamilyCard::whereId($id)->delete();
+        $family = FamilyCard::whereId($id)->firstOrFail();
 
-        return redirect()->route('family.index');
+        $family->delete();
+
+        Alert::success('Success', 'Data berhasil dihapus');
+        return back();
     }
 
     public function uploadImage($image)

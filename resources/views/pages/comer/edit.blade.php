@@ -63,10 +63,11 @@
               <select
                 class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
                 name="villager_id"
+                id="villager"
               >
                   <option value="0">Pelapor tidak terdaftar sebagai penduduk</option>
                 @foreach ($reporters as $reporter)
-                  <option value="{{ $reporter->id }}" {{ $reporter->id ? 'selected' : '' }}>{{ $reporter->id_number }} / {{ $reporter->name }}</option>
+                  <option value="{{ $reporter->id }}" {{ $reporter->id === $comers->villager_id ? 'selected' : '' }}>{{ $reporter->id_number }} / {{ $reporter->name }}</option>
                 @endforeach
               </select>
             </label>

@@ -8,6 +8,7 @@ use App\Models\Mover;
 use App\Models\Villager;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class MoverController extends Controller
 {
@@ -103,11 +104,11 @@ class MoverController extends Controller
     public function edit($id)
     {
         $movers = Mover::find($id);
-        $names = Mover::get();
+        $villagers = Villager::whereIn('status', ['ada','pindah'])->get();
 
         return view('pages.moves.edit')->with([
             'movers' => $movers,
-            'names' => $names
+            'villagers' => $villagers
         ]);
     }
 
@@ -126,6 +127,22 @@ class MoverController extends Controller
         return redirect()->route('move.index')->with('success', 'Data berhasil diubah');
     }
 
+    public function konfirmasi($id)
+    {
+        alert()->warning('Peringatan !', 'Anda yakin akan menghapus data ? ')
+        ->showConfirmButton(
+        '<form action="' . route('move.destroy', $id) . '" method="POST">
+            ' . method_field('delete') . csrf_field() . '
+            <button type="submit"
+                aria-label="Delete"
+            >
+                Hapus
+            </button>
+        </form>','#3085d6')->toHtml()
+        ->showCancelButton('Batal', '#aaa')->reverseButtons();
+
+        return back();
+    }
     /**
      * Remove the specified resource from storage.
      *
@@ -134,8 +151,11 @@ class MoverController extends Controller
      */
     public function destroy($id)
     {
-        Mover::whereId($id)->delete();
+        $mover = Mover::whereId($id)->firstOrFail();
 
-        return redirect()->route('move.index')->with('success', 'Data berhasil dibuat');
+        $mover->delete();
+
+        Alert::success('Success', 'Data berhasil dihapus');
+        return back();
     }
 }

@@ -10,6 +10,7 @@ use App\Models\Villager;
 use App\Http\Controllers\Controller;
 use App\Imports\VillagerImport;
 use Maatwebsite\Excel\Facades\Excel;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class VillagerController extends Controller
 {
@@ -51,7 +52,7 @@ class VillagerController extends Controller
 
     public function export()
     {
-        return Excel::download(new VillagerExport, 'Villager.xlsx');
+        return (new VillagerExport)->download('Villager.xlsx');
     }
 
     public function import()
@@ -62,7 +63,7 @@ class VillagerController extends Controller
     public function storeImport(Request $request)
     {
         $this->validate($request, [
-            'id_photo' => 'required|file'
+            'excel' => 'required|file'
         ]);
 
         Excel::import(new VillagerImport, $request->file('excel'));
@@ -142,9 +143,25 @@ class VillagerController extends Controller
         $data = Villager::findOrFail($id);
         
         $data->update($request->all());
-        return back()->with('success', 'Ubah data sukses');
+        return redirect()->route('villager.index')->with('success', 'Ubah data sukses');
     }
 
+    public function konfirmasi($id)
+    {
+        alert()->warning('Peringatan !', 'Anda yakin akan menghapus data ? ')
+        ->showConfirmButton(
+        '<form action="'. route('villager.destroy', $id).'" method="POST">
+            ' . method_field('delete') . csrf_field() . '
+            <button type="submit"
+                aria-label="Delete"
+            >
+                Hapus
+            </button>
+        </form>','#3085d6')->toHtml()
+        ->showCancelButton('Batal', '#aaa')->reverseButtons();
+
+        return back();
+    }
     /**
      * Remove the specified resource from storage.
      *
@@ -153,8 +170,12 @@ class VillagerController extends Controller
      */
     public function destroy($id)
     {
-        Villager::whereId($id)->delete();
-        return redirect()->route('villager.index')->with('success', 'Hapus data sukses');
+        $villager = Villager::whereId($id)->firstOrFail();
+
+        $villager->delete();
+
+        Alert::success('Success', 'Data berhasil dihapus');
+        return back();
     }
 
     public function uploadImage($image)

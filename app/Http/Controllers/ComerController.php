@@ -8,6 +8,7 @@ use App\Models\Comer;
 use App\Models\Villager;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ComerController extends Controller
 {
@@ -103,7 +104,7 @@ class ComerController extends Controller
      */
     public function edit($id)
     {
-        $reporters = Villager::get();
+        $reporters = Villager::where('status', 'ada')->get();
         $comers = Comer::find($id);  
         return view('pages.comer.edit')->with([
             'reporters' => $reporters,
@@ -126,6 +127,24 @@ class ComerController extends Controller
         return redirect()->route('comer.index');
     }
 
+    public function konfirmasi($id)
+    {
+        alert()->warning('Peringatan !', 'Anda yakin akan menghapus data ? ')
+        ->showConfirmButton(
+            '<form action="' . route('comer.destroy', $id) . '" method="POST">
+            ' . method_field('delete') . csrf_field() . '
+            <button type="submit"
+                aria-label="Delete"
+            >
+                Hapus
+            </button>
+        </form>',
+            '#3085d6'
+        )->toHtml()
+            ->showCancelButton('Batal', '#aaa')->reverseButtons();
+
+        return back();
+    }
     /**
      * Remove the specified resource from storage.
      *
@@ -134,8 +153,11 @@ class ComerController extends Controller
      */
     public function destroy($id)
     {
-        Comer::whereId($id)->delete();
+        $comer = Comer::whereId($id)->firstOrFail();
 
-        return redirect()->route('comer.index');
+        $comer->delete();
+
+        Alert::success('Success', 'Data berhasil dihapus');
+        return back();
     }
 }

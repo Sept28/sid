@@ -7,3 +7,10 @@
     allowClear: true
   });
 </script>
+
+<script src="https://cdn.datatables.net/1.11.2/js/jquery.dataTables.min.js"></script>
+<script>
+  $(document).ready( function () {
+      $('#myTable').DataTable();
+  } );
+</script>

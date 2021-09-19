@@ -83,7 +83,7 @@
               >
                   <option>Belum Ada</option>
                 @foreach ($families as $family)
-                  <option value="{{ $family->id }}">{{ $family->family_number }} / {{ $family->villager->name }}</option>
+                  <option value="{{ $family->id }}">{{ $family->family_number.' /'}} {{ $family->villager ? $family->villager->name : '' }}</option>
                 @endforeach
               </select>
             </label>

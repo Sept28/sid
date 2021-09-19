@@ -53,7 +53,7 @@
                 id="villager"
               >
                 @foreach ($villagers as $death)
-                  <option value="{{ $death->id }}" {{ $deaths->villager_id ? 'selected' : '' }}>{{ $death->id_number }} / {{ $death->name }}</option>
+                  <option value="{{ $death->id }}" {{ $death->id === $deaths->villager_id ? 'selected' : '' }}>{{ $death->id_number }} / {{ $death->name }}</option>
                 @endforeach
               </select>
             </label>
@@ -96,5 +96,5 @@
           </form>
         </div>
       </div>
-    </main>
+    </main> 
 @endsection

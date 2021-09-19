@@ -4,8 +4,9 @@ namespace App\Imports;
 
 use App\Models\FamilyCard;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithStartRow;
 
-class FamilyCardImport implements ToModel
+class FamilyCardImport implements ToModel, WithStartRow
 {
     /**
     * @param array $row
@@ -25,5 +26,10 @@ class FamilyCardImport implements ToModel
         'postal_code' => $row[8],
         'family_photo' => $row[9],
         ]);
+    }
+
+    public function StartRow(): int
+    {
+        return 2;
     }
 }

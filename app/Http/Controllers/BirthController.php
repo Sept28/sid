@@ -9,6 +9,7 @@ use App\Models\FamilyCard;
 use App\Models\Villager;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class BirthController extends Controller
 {
@@ -104,7 +105,7 @@ class BirthController extends Controller
     public function edit($id)
     {
         $families   = FamilyCard::get();
-        $births     = Birth::find($id);
+        $births     = Villager::find($id);
 
         return view('pages.birth.edit')->with([
             'births'    => $births,
@@ -121,12 +122,30 @@ class BirthController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = Birth::findOrFail($id);
+        $data = Villager::findOrFail($id);
         $data->update($request->all());
 
         return redirect()->route('birth.index');
     }
 
+    public function konfirmasi($id)
+    {
+        alert()->warning('Peringatan !', 'Anda yakin akan menghapus data ? ')
+        ->showConfirmButton(
+            '<form action="' . route('birth.destroy', $id) . '" method="POST">
+            ' . method_field('delete') . csrf_field() . '
+            <button type="submit"
+                aria-label="Delete"
+            >
+                Hapus
+            </button>
+        </form>',
+            '#3085d6'
+        )->toHtml()
+            ->showCancelButton('Batal', '#aaa')->reverseButtons();
+
+        return back();
+    }
     /**
      * Remove the specified resource from storage.
      *
@@ -135,9 +154,12 @@ class BirthController extends Controller
      */
     public function destroy($id)
     {
-        Birth::whereId($id)->delete();
+        $birth = Villager::whereId($id)->firstOrFail();
 
-        return redirect()->route('birth.index')->with('success', 'Hapus data berhasil');
+        $birth->delete();
+
+        Alert::success('Success', 'Data berhasil dihapus');
+        return back();
     }
 
     public function uploadImage($image)
